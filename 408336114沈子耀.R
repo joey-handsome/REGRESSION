@@ -111,7 +111,7 @@ summary(model1)
 model2=lm(a2$學生總計~a2$教師總計)
 summary(model2)
 
-#(5)
+##(5)
 #資料讀取
 staff=read.table("108_staff.csv",header = T,sep=",")
 name=names(staff)
@@ -135,17 +135,17 @@ name_library=cbind(name,names(library))
 staff1=subset(staff,staff$x38=="1一般")
 staff_sum=aggregate(x3+x4~x2,staff1,sum);colnames(staff_sum)=c("x2","職員人數總計")
 
-land_sum=aggregate(x4~x1,data_land,sum);colnames(land_sum)=c("x2","校地面積總計")
+land_sum=aggregate(x4~x1,data_land,sum);colnames(land_sum)=c("x1","校地面積總計")
+land_sum=merge(land_sum,na.omit(data_land),by="x1")
+land_sum=land_sum[,c("x2","校地面積總計")]
 data_5=merge(staff_sum,land_sum,by="x2")
 View(land_sum)
 library_sum=aggregate(x4+x5+x6+x7+x8+x9+x10+x11+x12+x13~x2,library,sum);colnames(library_sum)=c("x2","中外文圖書總計")
 data_6=merge(data_5,library_sum,by="x2")
 colnames(data_6)[1]="學校"
 newdata=merge(b,data_6,by="學校")
-dataset=newdata[,c("學校","學生總計","教師總計","職員人數總計","校地面積總計","中外文圖書總計")]
-colnames(dataset)=c("y","x1","x2","x3","x4","x5")
+dataset=newdata[,c("學生總計","教師總計","職員人數總計","校地面積總計","中外文圖書總計")]
+colnames(dataset)=c("y","x1","x2","x3","x4")
 model5=lm(y~.,data=dataset)
 summary(model5)
 View(dataset)
-
-
